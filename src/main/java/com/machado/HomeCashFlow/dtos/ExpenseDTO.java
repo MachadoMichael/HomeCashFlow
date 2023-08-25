@@ -12,6 +12,6 @@ public record ExpenseDTO(@NotBlank String name,
                          @NotNull Instant date,
                          @NotBlank String customer,
                          @NotBlank String team,
-                         @NotBlank ExpenseCategory category,
+                         ExpenseCategory category,
                          @NotNull BigDecimal value) {
 }
