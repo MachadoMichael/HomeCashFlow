@@ -35,11 +35,32 @@ public class ExpenseController {
     }
 
     @GetMapping("/expense/{id}")
-    public ResponseEntity<Object> getOneExpense(@PathVariable(value = "id") UUID expense_id) {
+    public ResponseEntity<Object> getOne(@PathVariable(value = "id") UUID expense_id) {
         Optional<Expense> expense = expenseRepository.findById(expense_id);
         return expense.<ResponseEntity<Object>>map(
                 value -> ResponseEntity.status(HttpStatus.OK).body(value)).orElseGet(
                 () -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found."));
+    }
+
+    @PutMapping("/expense/{id}")
+    public ResponseEntity<Object> update(@PathVariable(value = "id") UUID expense_id,
+                                         @RequestBody @Valid ExpenseDTO expenseDTO) {
+        Optional<Expense> expense = expenseRepository.findById(expense_id);
+        if (expense.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found.");
+        }
+        BeanUtils.copyProperties(expenseDTO, expense.get());
+        return ResponseEntity.status(HttpStatus.OK).body(expenseRepository.save(expense.get()));
+    }
+
+    @DeleteMapping("/expense/{id}")
+    public ResponseEntity<Object> delete(@PathVariable(value = "id")UUID expense_id){
+        Optional<Expense> expense = expenseRepository.findById(expense_id);
+        if(expense.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found.");
+        }
+        expenseRepository.delete(expense.get());
+        return ResponseEntity.status(HttpStatus.OK).body("Expense deleted successfully.");
     }
 
 
