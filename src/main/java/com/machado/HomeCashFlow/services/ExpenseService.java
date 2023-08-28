@@ -34,8 +34,7 @@ public class ExpenseService {
                 () -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found."));
     }
 
-    public ResponseEntity<Object> update(UUID expense_id,
-                                         ExpenseDTO expenseDTO) {
+    public ResponseEntity<Object> update(UUID expense_id, ExpenseDTO expenseDTO) {
         Optional<Expense> expense = expenseRepository.findById(expense_id);
         if (expense.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found.");

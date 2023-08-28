@@ -7,11 +7,12 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-public record ExpenseDTO(@NotBlank String name,
-                         String note,
-                         @NotNull Instant date,
-                         @NotBlank String customer,
-                         @NotBlank String team,
-                         ExpenseCategory category,
-                         @NotNull BigDecimal value) {
+public record ExpenseDTO(
+        @NotBlank String name,
+        String note,
+        @NotNull Instant date,
+        @NotBlank String customer,
+        @NotBlank String team,
+        ExpenseCategory category,
+        @NotNull BigDecimal value) {
 }
