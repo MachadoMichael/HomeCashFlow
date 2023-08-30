@@ -4,7 +4,9 @@ import com.machado.HomeCashFlow.dtos.ExpenseDTO;
 import com.machado.HomeCashFlow.entities.Expense;
 import com.machado.HomeCashFlow.services.ExpenseService;
 import jakarta.validation.Valid;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +21,9 @@ public class ExpenseController {
 
     @PostMapping("/expense")
     public ResponseEntity<Expense> save(@RequestBody @Valid ExpenseDTO expenseDTO) {
-        return expenseService.save(expenseDTO);
+        Expense expenseModel = new Expense();
+        BeanUtils.copyProperties(expenseDTO, expenseModel);
+        return expenseService.save(expenseModel);
     }
 
     @GetMapping("/expense")

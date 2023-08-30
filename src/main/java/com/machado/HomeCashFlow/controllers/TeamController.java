@@ -4,11 +4,13 @@ import com.machado.HomeCashFlow.dtos.TeamDTO;
 import com.machado.HomeCashFlow.entities.Team;
 import com.machado.HomeCashFlow.services.TeamService;
 import jakarta.validation.Valid;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -19,7 +21,9 @@ public class TeamController {
 
     @PostMapping("/team")
     public ResponseEntity<Team> save(@RequestBody @Valid TeamDTO teamDTO) {
-        return teamService.save(teamDTO);
+        Team teamModel = new Team();
+        BeanUtils.copyProperties(teamDTO, teamModel);
+        return teamService.save(teamModel);
     }
 
     @GetMapping("/team")

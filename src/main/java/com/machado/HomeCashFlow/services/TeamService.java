@@ -1,26 +1,29 @@
 package com.machado.HomeCashFlow.services;
 
 import com.machado.HomeCashFlow.dtos.TeamDTO;
+import com.machado.HomeCashFlow.entities.Expense;
 import com.machado.HomeCashFlow.entities.Team;
 import com.machado.HomeCashFlow.repositories.TeamRepository;
+import jakarta.persistence.criteria.CriteriaQuery;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
+@Service
 public class TeamService {
 
     @Autowired
     TeamRepository teamRepository;
 
-    public ResponseEntity<Team> save(TeamDTO teamDTO) {
-        Team teamModel = new Team();
-        BeanUtils.copyProperties(teamDTO, teamModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(teamRepository.save(teamRepository.save(teamModel)));
+    public ResponseEntity<Team> save(Team team) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(teamRepository.save(teamRepository.save(team)));
     }
 
     public ResponseEntity<List<Team>> getAll() {

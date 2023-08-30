@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "TEAM")
+@Table(name = "TEAMS")
 public class Team implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -18,7 +18,7 @@ public class Team implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID team_id;
     private String name;
-    private List<User> members;
+    private List<String> members;
 
     public UUID getTeam_id() {
         return team_id;
@@ -36,11 +36,11 @@ public class Team implements Serializable {
         this.name = name;
     }
 
-    public List<User> getMembers() {
+    public List<String> getMembers() {
         return members;
     }
 
-    public void setMembers(List<User> members) {
+    public void setMembers(List<String> members) {
         this.members = members;
     }
 }

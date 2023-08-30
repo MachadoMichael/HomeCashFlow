@@ -16,12 +16,12 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID user_id;
-    private String fistName;
+    private String firstName;
     private String lastName;
     @Email
     private String email;
     private String password;
-    private String userName;
+
 
     public UUID getUser_id() {
         return user_id;
@@ -31,12 +31,12 @@ public class User implements Serializable {
         this.user_id = user_id;
     }
 
-    public String getFistName() {
-        return fistName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFistName(String fistName) {
-        this.fistName = fistName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -61,13 +61,5 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 }
