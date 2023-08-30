@@ -6,46 +6,74 @@ import com.machado.HomeCashFlow.services.ExpenseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 public class ExpenseController {
+
 
     @Autowired
     ExpenseService expenseService;
 
     @PostMapping("/expense")
-    public ResponseEntity<Expense> save(@RequestBody @Valid ExpenseDTO expenseDTO) {
+    public ResponseEntity<Object> save(@RequestBody @Valid ExpenseDTO expenseDTO) {
         Expense expenseModel = new Expense();
         BeanUtils.copyProperties(expenseDTO, expenseModel);
-        return expenseService.save(expenseModel);
+        List<Expense> filteredExpenses = expenseService.getAll().stream().
+                filter(expense -> expense.getExpense_id().equals(expenseModel.getExpense_id())).toList();
+
+        if (!filteredExpenses.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Email already registered.");
+
+        return ResponseEntity.status(HttpStatus.OK).body(expenseService.save(expenseModel));
     }
 
     @GetMapping("/expense")
     public ResponseEntity<List<Expense>> getAll() {
-        return expenseService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(expenseService.getAll());
     }
 
     @GetMapping("/expense/{id}")
     public ResponseEntity<Object> getOne(@PathVariable(value = "id") UUID expense_id) {
-        return expenseService.getOne(expense_id);
+
+        Optional<Expense> expense = expenseService.getOne(expense_id);
+        if (expense.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found.");
+
+        return ResponseEntity.status(HttpStatus.OK).body(expense);
     }
 
     @PutMapping("/expense/{id}")
     public ResponseEntity<Object> update(@PathVariable(value = "id") UUID expense_id,
                                          @RequestBody @Valid ExpenseDTO expenseDTO) {
-        return expenseService.update(expense_id, expenseDTO);
+
+        Optional<Expense> expense = expenseService.getOne(expense_id);
+        if (expense.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found.");
+
+        BeanUtils.copyProperties(expenseDTO, expense.get());
+        return ResponseEntity.status(HttpStatus.OK).body(expenseService.save(expense.get()));
     }
 
     @DeleteMapping("/expense/{id}")
     public ResponseEntity<Object> delete(@PathVariable(value = "id") UUID expense_id) {
-      return expenseService.delete(expense_id);
+
+        Optional<Expense> expense = expenseService.getOne(expense_id);
+        if (expense.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found.");
+
+        Expense expenseModel = new Expense();
+        BeanUtils.copyProperties(expense, expenseModel);
+        expenseService.delete(expenseModel);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Expense deleted with success");
     }
-
-
 }
