@@ -28,7 +28,7 @@ public class TeamController {
         Team teamModel = new Team();
         BeanUtils.copyProperties(teamDTO, teamModel);
         List<Team> filteredTeams = teamService.getAll().stream().
-                filter(team -> team.getTeam_id().equals(teamModel.getTeam_id())).toList();
+                filter(team -> team.getId().equals(teamModel.getId())).toList();
 
         if (!filteredTeams.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Email already registered.");

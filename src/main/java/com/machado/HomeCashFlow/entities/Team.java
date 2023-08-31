@@ -16,16 +16,16 @@ public class Team implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID team_id;
+    private UUID id;
     private String name;
-    private List<String> members;
+    private List<Integer> members;
 
-    public UUID getTeam_id() {
-        return team_id;
+    public UUID getId() {
+        return id;
     }
 
-    public void setTeam_id(UUID team_id) {
-        this.team_id = team_id;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -36,11 +36,11 @@ public class Team implements Serializable {
         this.name = name;
     }
 
-    public List<String> getMembers() {
+    public List<Integer> getMembers() {
         return members;
     }
 
-    public void setMembers(List<String> members) {
+    public void setMembers(List<Integer> members) {
         this.members = members;
     }
 }

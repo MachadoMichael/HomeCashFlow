@@ -7,6 +7,6 @@ import java.util.List;
 
 public record TeamDTO(
         @NotBlank String name,
-        @NotBlank List<String> members
+        @NotBlank List<Integer> members
 ) {
 }

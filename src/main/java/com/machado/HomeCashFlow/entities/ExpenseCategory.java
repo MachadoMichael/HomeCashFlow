@@ -9,7 +9,7 @@ public enum ExpenseCategory {
     INVESTMENT,
     RENT,
     CONDOMINIUM,
-    IPTU,
+    TAX,
     PHARMACY,
     SUPERMARKET,
     OTHERS

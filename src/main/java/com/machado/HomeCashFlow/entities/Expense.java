@@ -6,7 +6,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.UUID;
 
 @Entity
 @Table(name = "EXPENSES")
@@ -16,21 +15,21 @@ public class Expense implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private UUID expense_id;
+    private Integer id;
     private String name;
     private String note;
     private Instant date;
-    private String customer;
-    private String team;
+    private Integer customer;
+    private Integer team;
     private ExpenseCategory category;
     private BigDecimal value;
 
-    public UUID getExpense_id() {
-        return expense_id;
+    public Integer getId() {
+        return id;
     }
 
-    public void setExpense_id(UUID expense_id) {
-        this.expense_id = expense_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -57,19 +56,19 @@ public class Expense implements Serializable {
         this.date = date;
     }
 
-    public String getCustomer() {
+    public Integer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(String customer) {
+    public void setCustomer(Integer customer) {
         this.customer = customer;
     }
 
-    public String getTeam() {
+    public Integer getTeam() {
         return team;
     }
 
-    public void setTeam(String team) {
+    public void setTeam(Integer team) {
         this.team = team;
     }
 

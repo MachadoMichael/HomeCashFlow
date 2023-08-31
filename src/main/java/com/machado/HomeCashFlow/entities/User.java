@@ -15,7 +15,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID user_id;
+    private Integer id;
     private String firstName;
     private String lastName;
     @Email
@@ -23,12 +23,12 @@ public class User implements Serializable {
     private String password;
 
 
-    public UUID getUser_id() {
-        return user_id;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUser_id(UUID user_id) {
-        this.user_id = user_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getFirstName() {
