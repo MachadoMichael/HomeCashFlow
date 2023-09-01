@@ -19,7 +19,6 @@ import java.util.stream.Stream;
 @RestController
 public class UserController {
 
-
     @Autowired
     UserService userService;
 

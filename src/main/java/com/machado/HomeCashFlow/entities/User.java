@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -21,7 +22,15 @@ public class User implements Serializable {
     @Email
     private String email;
     private String password;
+    private List<Integer> teams;
 
+    public List<Integer> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Integer> teams) {
+        this.teams = teams;
+    }
 
     public Integer getId() {
         return id;
