@@ -13,12 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 public class ExpenseController {
-
 
     @Autowired
     ExpenseService expenseService;
@@ -28,7 +25,7 @@ public class ExpenseController {
         Expense expenseModel = new Expense();
         BeanUtils.copyProperties(expenseDTO, expenseModel);
         List<Expense> filteredExpenses = expenseService.getAll().stream().
-                filter(expense -> expense.getExpense_id().equals(expenseModel.getExpense_id())).toList();
+                filter(expense -> expense.getId().equals(expenseModel.getId())).toList();
 
         if (!filteredExpenses.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Email already registered.");
@@ -42,9 +39,9 @@ public class ExpenseController {
     }
 
     @GetMapping("/expense/{id}")
-    public ResponseEntity<Object> getOne(@PathVariable(value = "id") UUID expense_id) {
+    public ResponseEntity<Object> getOne(@PathVariable(value = "id") UUID id) {
 
-        Optional<Expense> expense = expenseService.getOne(expense_id);
+        Optional<Expense> expense = expenseService.getOne(id);
         if (expense.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found.");
 
@@ -52,10 +49,10 @@ public class ExpenseController {
     }
 
     @PutMapping("/expense/{id}")
-    public ResponseEntity<Object> update(@PathVariable(value = "id") UUID expense_id,
+    public ResponseEntity<Object> update(@PathVariable(value = "id") UUID id,
                                          @RequestBody @Valid ExpenseDTO expenseDTO) {
 
-        Optional<Expense> expense = expenseService.getOne(expense_id);
+        Optional<Expense> expense = expenseService.getOne(id);
         if (expense.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found.");
 
@@ -64,9 +61,9 @@ public class ExpenseController {
     }
 
     @DeleteMapping("/expense/{id}")
-    public ResponseEntity<Object> delete(@PathVariable(value = "id") UUID expense_id) {
+    public ResponseEntity<Object> delete(@PathVariable(value = "id") UUID id) {
 
-        Optional<Expense> expense = expenseService.getOne(expense_id);
+        Optional<Expense> expense = expenseService.getOne(id);
         if (expense.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found.");
 

@@ -23,8 +23,8 @@ public class ExpenseService {
         return expenseRepository.findAll();
     }
 
-    public Optional<Expense> getOne(UUID expense_id) {
-        return expenseRepository.findById(expense_id);
+    public Optional<Expense> getOne(UUID id) {
+        return expenseRepository.findById(id);
     }
 
     public void delete(Expense expense) {

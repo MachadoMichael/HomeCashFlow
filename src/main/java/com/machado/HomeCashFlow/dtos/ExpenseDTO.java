@@ -12,7 +12,7 @@ public record ExpenseDTO(
         String note,
         @NotNull Instant date,
         @NotBlank String customer,
-        @NotBlank String team,
+        @NotBlank Integer team,
         ExpenseCategory category,
-        @NotNull BigDecimal value) {
+        @NotNull Double value) {
 }

@@ -1,11 +1,13 @@
 package com.machado.HomeCashFlow.entities;
 
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Table(name = "EXPENSES")
@@ -15,20 +17,20 @@ public class Expense implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
     private String name;
     private String note;
     private Instant date;
     private Integer customer;
     private Integer team;
     private ExpenseCategory category;
-    private BigDecimal value;
+    private Double value;
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -80,11 +82,11 @@ public class Expense implements Serializable {
         this.category = category;
     }
 
-    public BigDecimal getValue() {
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(BigDecimal value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 }
