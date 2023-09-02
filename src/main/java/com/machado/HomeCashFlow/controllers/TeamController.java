@@ -17,13 +17,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
+@RequestMapping("/team")
 public class TeamController {
 
 
     @Autowired
     TeamService teamService;
 
-    @PostMapping("/team")
+    @PostMapping
     public ResponseEntity<Object> save(@RequestBody @Valid TeamDTO teamDTO) {
         Team teamModel = new Team();
         BeanUtils.copyProperties(teamDTO, teamModel);
@@ -36,12 +37,12 @@ public class TeamController {
         return ResponseEntity.status(HttpStatus.OK).body(teamService.save(teamModel));
     }
 
-    @GetMapping("/team")
+    @GetMapping
     public ResponseEntity<List<Team>> getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(teamService.getAll());
     }
 
-    @GetMapping("/team/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Object> getOne(@PathVariable(value = "id") UUID team_id) {
 
         Optional<Team> team = teamService.getOne(team_id);
@@ -51,7 +52,7 @@ public class TeamController {
         return ResponseEntity.status(HttpStatus.OK).body(team);
     }
 
-    @PutMapping("/team/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Object> update(@PathVariable(value = "id") UUID team_id,
                                          @RequestBody @Valid TeamDTO teamDTO) {
 
@@ -63,7 +64,7 @@ public class TeamController {
         return ResponseEntity.status(HttpStatus.OK).body(teamService.save(team.get()));
     }
 
-    @DeleteMapping("/team/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable(value = "id") UUID team_id) {
 
         Optional<Team> team = teamService.getOne(team_id);

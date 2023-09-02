@@ -17,12 +17,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @PostMapping("/user")
+    @PostMapping
     public ResponseEntity<Object> save(@RequestBody @Valid UserDTO userDTO) {
         User userModel = new User();
         BeanUtils.copyProperties(userDTO, userModel);
@@ -35,12 +36,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.save(userModel));
     }
 
-    @GetMapping("/user")
+    @GetMapping
     public ResponseEntity<List<User>> getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAll());
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Object> getOne(@PathVariable(value = "id") UUID user_id) {
 
         Optional<User> user = userService.getOne(user_id);
@@ -50,7 +51,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Object> update(@PathVariable(value = "id") UUID user_id,
                                          @RequestBody @Valid UserDTO userDTO) {
 
@@ -62,7 +63,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.save(user.get()));
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable(value = "id") UUID user_id) {
 
         Optional<User> user = userService.getOne(user_id);

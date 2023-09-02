@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/expense")
 public class ExpenseController {
 
     @Autowired
@@ -33,12 +34,12 @@ public class ExpenseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(expenseService.save(expenseModel));
     }
 
-    @GetMapping("/expense")
+    @GetMapping
     public ResponseEntity<List<Expense>> getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(expenseService.getAll());
     }
 
-    @GetMapping("/expense/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Object> getOne(@PathVariable(value = "id") UUID id) {
 
         Optional<Expense> expense = expenseService.getOne(id);
@@ -48,7 +49,7 @@ public class ExpenseController {
         return ResponseEntity.status(HttpStatus.OK).body(expense);
     }
 
-    @PutMapping("/expense/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Object> update(@PathVariable(value = "id") UUID id,
                                          @RequestBody @Valid ExpenseDTO expenseDTO) {
 
@@ -60,7 +61,7 @@ public class ExpenseController {
         return ResponseEntity.status(HttpStatus.OK).body(expenseService.save(expense.get()));
     }
 
-    @DeleteMapping("/expense/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable(value = "id") UUID id) {
 
         Optional<Expense> expense = expenseService.getOne(id);
