@@ -30,7 +30,7 @@ public class ExpenseController {
         if (!filteredExpenses.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Email already registered.");
 
-        return ResponseEntity.status(HttpStatus.OK).body(expenseService.save(expenseModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(expenseService.save(expenseModel));
     }
 
     @GetMapping("/expense")
