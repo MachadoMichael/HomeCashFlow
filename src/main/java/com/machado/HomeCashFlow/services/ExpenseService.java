@@ -27,7 +27,7 @@ public class ExpenseService {
         return expenseRepository.findById(id);
     }
 
-    public void delete(Expense expense) {
-        expenseRepository.delete(expense);
+    public void delete(UUID id) {
+        expenseRepository.deleteById(id);
     }
 }

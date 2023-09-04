@@ -21,16 +21,10 @@ public class ExpenseController {
     @Autowired
     ExpenseService expenseService;
 
-    @PostMapping("/expense")
+    @PostMapping
     public ResponseEntity<Object> save(@RequestBody @Valid ExpenseDTO expenseDTO) {
         Expense expenseModel = new Expense();
         BeanUtils.copyProperties(expenseDTO, expenseModel);
-        List<Expense> filteredExpenses = expenseService.getAll().stream().
-                filter(expense -> expense.getId().equals(expenseModel.getId())).toList();
-
-        if (!filteredExpenses.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Email already registered.");
-
         return ResponseEntity.status(HttpStatus.CREATED).body(expenseService.save(expenseModel));
     }
 
@@ -68,9 +62,7 @@ public class ExpenseController {
         if (expense.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found.");
 
-        Expense expenseModel = new Expense();
-        BeanUtils.copyProperties(expense, expenseModel);
-        expenseService.delete(expenseModel);
+        expenseService.delete(id);
 
         return ResponseEntity.status(HttpStatus.OK).body("Expense deleted with success");
     }

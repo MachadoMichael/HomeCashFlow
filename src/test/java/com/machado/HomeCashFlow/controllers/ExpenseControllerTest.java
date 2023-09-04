@@ -16,10 +16,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @ExtendWith(MockitoExtension.class)
 public class ExpenseControllerTest {
@@ -51,8 +53,31 @@ public class ExpenseControllerTest {
     }
 
     @Test
-    public void acceptRequestAndCallServiceToSave() {
+    void saveExpenseAndReturnHttpCreated() {
         ResponseEntity<Object> response = assertDoesNotThrow(() -> controller.save(expenseDTO));
         assertEquals(ResponseEntity.status(HttpStatus.CREATED).body(service.save(expense)), response);
     }
+
+    @Test
+    void getAllExpenseAndResponseOkAndListIntoBody() {
+        ResponseEntity<List<Expense>> expenseList = assertDoesNotThrow(() -> controller.getAll());
+        assertEquals(ResponseEntity.status(HttpStatus.OK).body(service.getAll()), expenseList);
+    }
+
+    @Test
+    void getExpenseByIdIfExpenseIdFounded() {
+
+        UUID id = new UUID(122, 3);
+//        expense.setId(id);
+        Expense newExpense = repository.save(expense);
+        ResponseEntity<Object> expense = controller.getOne(this.expense.getId());
+        Optional<Expense> expenseByService = service.getOne(this.expense.getId());
+        if (expenseByService.isEmpty()) {
+            assertEquals(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found."), expense);
+        } else {
+            assertEquals(ResponseEntity.status(HttpStatus.OK).body(expenseByService), expense);
+        }
+    }
+
+
 }

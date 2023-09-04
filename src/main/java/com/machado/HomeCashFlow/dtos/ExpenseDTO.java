@@ -11,8 +11,8 @@ public record ExpenseDTO(
         @NotBlank String name,
         String note,
         @NotNull Instant date,
-        @NotBlank String customer,
-        @NotBlank Integer team,
+        @NotNull Integer customer,
+        @NotNull Integer team,
         ExpenseCategory category,
         @NotNull Double value) {
 }
