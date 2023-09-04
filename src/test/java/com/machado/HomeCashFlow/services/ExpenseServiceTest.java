@@ -36,7 +36,7 @@ public class ExpenseServiceTest {
                 "book",
                 "ultraKnowledge",
                 Instant.now(),
-                "Michael",
+                2,
                 1,
                 ExpenseCategory.EDUCATION,
                 45.00);

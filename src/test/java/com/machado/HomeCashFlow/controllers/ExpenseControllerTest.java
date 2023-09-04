@@ -44,7 +44,7 @@ public class ExpenseControllerTest {
                 "book",
                 "ultraKnowledge",
                 Instant.now(),
-                "Michael",
+                2,
                 1,
                 ExpenseCategory.EDUCATION,
                 45.00);
@@ -68,8 +68,8 @@ public class ExpenseControllerTest {
     void getExpenseByIdIfExpenseIdFounded() {
 
         UUID id = new UUID(122, 3);
-//        expense.setId(id);
-        Expense newExpense = repository.save(expense);
+        this.expense.setId(id);
+
         ResponseEntity<Object> expense = controller.getOne(this.expense.getId());
         Optional<Expense> expenseByService = service.getOne(this.expense.getId());
         if (expenseByService.isEmpty()) {
