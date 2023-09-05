@@ -13,21 +13,21 @@ import java.util.UUID;
 public class ExpenseService {
 
     @Autowired
-    ExpenseRepository expenseRepository;
+    ExpenseRepository repository;
 
     public Expense save(Expense expense) {
-        return expenseRepository.save(expense);
+        return repository.save(expense);
     }
 
     public List<Expense> getAll() {
-        return expenseRepository.findAll();
+        return repository.findAll();
     }
 
     public Optional<Expense> getOne(UUID id) {
-        return expenseRepository.findById(id);
+        return repository.findById(id);
     }
 
     public void delete(UUID id) {
-        expenseRepository.deleteById(id);
+        repository.deleteById(id);
     }
 }

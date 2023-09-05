@@ -17,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class ExpenseServiceTest {
@@ -33,6 +34,7 @@ public class ExpenseServiceTest {
     public void setUp() {
         expense = new Expense();
         ExpenseDTO expenseDTO = new ExpenseDTO(
+                UUID.randomUUID(),
                 "book",
                 "ultraKnowledge",
                 Instant.now(),

@@ -6,8 +6,10 @@ import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.UUID;
 
 public record ExpenseDTO(
+        UUID id,
         @NotBlank String name,
         String note,
         @NotNull Instant date,

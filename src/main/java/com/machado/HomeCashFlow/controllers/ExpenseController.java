@@ -19,50 +19,49 @@ import java.util.UUID;
 public class ExpenseController {
 
     @Autowired
-    ExpenseService expenseService;
+    ExpenseService service;
 
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody @Valid ExpenseDTO expenseDTO) {
         Expense expenseModel = new Expense();
         BeanUtils.copyProperties(expenseDTO, expenseModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(expenseService.save(expenseModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(expenseModel));
     }
 
     @GetMapping
     public ResponseEntity<List<Expense>> getAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(expenseService.getAll());
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getOne(@PathVariable(value = "id") UUID id) {
 
-        Optional<Expense> expense = expenseService.getOne(id);
+        Optional<Expense> expense = service.getOne(id);
         if (expense.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found.");
 
         return ResponseEntity.status(HttpStatus.OK).body(expense);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable(value = "id") UUID id,
-                                         @RequestBody @Valid ExpenseDTO expenseDTO) {
+    @PutMapping
+    public ResponseEntity<Object> update(@RequestBody @Valid ExpenseDTO expenseDTO) {
 
-        Optional<Expense> expense = expenseService.getOne(id);
+        Optional<Expense> expense = service.getOne(expenseDTO.id());
         if (expense.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found.");
 
         BeanUtils.copyProperties(expenseDTO, expense.get());
-        return ResponseEntity.status(HttpStatus.OK).body(expenseService.save(expense.get()));
+        return ResponseEntity.status(HttpStatus.OK).body(service.save(expense.get()));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable(value = "id") UUID id) {
 
-        Optional<Expense> expense = expenseService.getOne(id);
+        Optional<Expense> expense = service.getOne(id);
         if (expense.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found.");
 
-        expenseService.delete(id);
+        service.delete(id);
 
         return ResponseEntity.status(HttpStatus.OK).body("Expense deleted with success");
     }

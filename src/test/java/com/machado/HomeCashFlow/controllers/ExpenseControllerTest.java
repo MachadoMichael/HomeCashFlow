@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,7 @@ public class ExpenseControllerTest {
     @BeforeEach
     public void setup() {
         expenseDTO = new ExpenseDTO(
+                UUID.randomUUID(),
                 "book",
                 "ultraKnowledge",
                 Instant.now(),
@@ -50,6 +52,9 @@ public class ExpenseControllerTest {
                 45.00);
         expense = new Expense();
         BeanUtils.copyProperties(expenseDTO, expense);
+
+        Mockito.when(service.save(expense)).thenReturn(expense);
+        Mockito.when(repository.findById(expenseDTO.id())).thenReturn(Optional.of(expense));
     }
 
     @Test
@@ -68,15 +73,30 @@ public class ExpenseControllerTest {
     void getExpenseByIdIfExpenseIdFounded() {
 
         UUID id = new UUID(122, 3);
-        this.expense.setId(id);
+        expense.setId(id);
 
-        ResponseEntity<Object> expense = controller.getOne(this.expense.getId());
-        Optional<Expense> expenseByService = service.getOne(this.expense.getId());
+        ResponseEntity<Object> responseGetById = controller.getOne(expense.getId());
+        Optional<Expense> expenseByService = service.getOne(expense.getId());
         if (expenseByService.isEmpty()) {
-            assertEquals(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found."), expense);
+            assertEquals(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found."), responseGetById);
         } else {
-            assertEquals(ResponseEntity.status(HttpStatus.OK).body(expenseByService), expense);
+            assertEquals(ResponseEntity.status(HttpStatus.OK).body(expenseByService), responseGetById);
         }
+    }
+
+    @Test
+    void updateExpenseById() {
+        Expense newExpense = service.save(expense);
+
+        ResponseEntity<Object> responsePutById = controller.update(expenseDTO);
+        Optional<Expense> selectedExpense = service.getOne(newExpense.getId());
+        if (selectedExpense.isEmpty())
+            assertEquals(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found."), responsePutById);
+        else {
+            BeanUtils.copyProperties(expenseDTO, selectedExpense.get());
+            repository.save(selectedExpense.get());
+        }
+
     }
 
 
