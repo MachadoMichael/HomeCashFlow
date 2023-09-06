@@ -43,10 +43,11 @@ public class ExpenseController {
         return ResponseEntity.status(HttpStatus.OK).body(expense);
     }
 
-    @PutMapping
-    public ResponseEntity<Object> update(@RequestBody @Valid ExpenseDTO expenseDTO) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> update(@PathVariable(value = "id") UUID id,
+                                         @RequestBody @Valid ExpenseDTO expenseDTO) {
 
-        Optional<Expense> expense = service.getOne(expenseDTO.id());
+        Optional<Expense> expense = service.getOne(id);
         if (expense.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found.");
 

@@ -34,7 +34,6 @@ public class ExpenseServiceTest {
     public void setUp() {
         expense = new Expense();
         ExpenseDTO expenseDTO = new ExpenseDTO(
-                UUID.randomUUID(),
                 "book",
                 "ultraKnowledge",
                 Instant.now(),

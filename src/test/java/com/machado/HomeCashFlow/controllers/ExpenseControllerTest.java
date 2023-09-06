@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -42,7 +42,6 @@ public class ExpenseControllerTest {
     @BeforeEach
     public void setup() {
         expenseDTO = new ExpenseDTO(
-                UUID.randomUUID(),
                 "book",
                 "ultraKnowledge",
                 Instant.now(),
@@ -53,8 +52,6 @@ public class ExpenseControllerTest {
         expense = new Expense();
         BeanUtils.copyProperties(expenseDTO, expense);
 
-        Mockito.when(service.save(expense)).thenReturn(expense);
-        Mockito.when(repository.findById(expenseDTO.id())).thenReturn(Optional.of(expense));
     }
 
     @Test
@@ -86,9 +83,11 @@ public class ExpenseControllerTest {
 
     @Test
     void updateExpenseById() {
-        Expense newExpense = service.save(expense);
+        Expense newExpense = new Expense();
+        BeanUtils.copyProperties(expense, newExpense);
+        newExpense.setId(UUID.randomUUID());
 
-        ResponseEntity<Object> responsePutById = controller.update(expenseDTO);
+        ResponseEntity<Object> responsePutById = controller.update(newExpense.getId(), expenseDTO);
         Optional<Expense> selectedExpense = service.getOne(newExpense.getId());
         if (selectedExpense.isEmpty())
             assertEquals(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found."), responsePutById);
@@ -97,6 +96,17 @@ public class ExpenseControllerTest {
             repository.save(selectedExpense.get());
         }
 
+    }
+
+    @Test
+    void deleteExpenseById() {
+        Optional<Expense> responseGet = service.getOne(expense.getId());
+        ResponseEntity<Object> responseDelete = controller.delete(expense.getId());
+
+        if (responseGet.isEmpty())
+            assertEquals(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found."), responseDelete);
+        else
+            assertEquals(ResponseEntity.status(HttpStatus.OK).body("Expense deleted with success"), responseDelete);
     }
 
 
