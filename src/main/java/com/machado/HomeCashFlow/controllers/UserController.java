@@ -21,30 +21,29 @@ import java.util.stream.Stream;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    UserService service;
 
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody @Valid UserDTO userDTO) {
         User userModel = new User();
         BeanUtils.copyProperties(userDTO, userModel);
-        List<User> filteredUsers = userService.getAll().stream().
-                filter(user -> user.getEmail().equals(userModel.getEmail())).toList();
+        User selectedUser = service.getByEmail(userDTO.email());
 
-        if (!filteredUsers.isEmpty())
+        if (selectedUser != null)
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Email already registered.");
 
-        return ResponseEntity.status(HttpStatus.OK).body(userService.save(userModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(userModel));
     }
 
     @GetMapping
     public ResponseEntity<List<User>> getAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getAll());
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getOne(@PathVariable(value = "id") UUID user_id) {
 
-        Optional<User> user = userService.getOne(user_id);
+        Optional<User> user = service.getOne(user_id);
         if (user.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
 
@@ -55,24 +54,24 @@ public class UserController {
     public ResponseEntity<Object> update(@PathVariable(value = "id") UUID user_id,
                                          @RequestBody @Valid UserDTO userDTO) {
 
-        Optional<User> user = userService.getOne(user_id);
+        Optional<User> user = service.getOne(user_id);
         if (user.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
 
         BeanUtils.copyProperties(userDTO, user.get());
-        return ResponseEntity.status(HttpStatus.OK).body(userService.save(user.get()));
+        return ResponseEntity.status(HttpStatus.OK).body(service.save(user.get()));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable(value = "id") UUID user_id) {
 
-        Optional<User> user = userService.getOne(user_id);
+        Optional<User> user = service.getOne(user_id);
         if (user.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
 
         User userModel = new User();
         BeanUtils.copyProperties(user, userModel);
-        userService.delete(userModel);
+        service.delete(userModel);
 
         return ResponseEntity.status(HttpStatus.OK).body("User deleted with success");
     }

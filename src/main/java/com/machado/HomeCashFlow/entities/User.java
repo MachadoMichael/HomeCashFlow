@@ -9,14 +9,14 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name= "USERS")
+@Table(name = "USERS")
 public class User implements Serializable {
     @Serial
-    private  static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
     private String firstName;
     private String lastName;
     @Email
@@ -32,11 +32,11 @@ public class User implements Serializable {
         this.teams = teams;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

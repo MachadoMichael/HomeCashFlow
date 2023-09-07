@@ -13,21 +13,25 @@ import java.util.UUID;
 public class UserService {
 
     @Autowired
-    UserRepository userRepository;
+    UserRepository repository;
 
     public User save(User user) {
-        return userRepository.save(user);
+        return repository.save(user);
     }
 
     public List<User> getAll() {
-        return userRepository.findAll();
+        return repository.findAll();
     }
 
     public Optional<User> getOne(UUID user_id) {
-        return userRepository.findById(user_id);
+        return repository.findById(user_id);
+    }
+
+    public User getByEmail(String email) {
+        return repository.findByEmail(email);
     }
 
     public void delete(User user) {
-        userRepository.delete(user);
+        repository.delete(user);
     }
 }

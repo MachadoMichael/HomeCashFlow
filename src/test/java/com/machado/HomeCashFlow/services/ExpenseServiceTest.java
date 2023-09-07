@@ -4,7 +4,9 @@ import com.machado.HomeCashFlow.dtos.ExpenseDTO;
 import com.machado.HomeCashFlow.entities.Expense;
 import com.machado.HomeCashFlow.entities.ExpenseCategory;
 import com.machado.HomeCashFlow.repositories.ExpenseRepository;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,14 +59,20 @@ public class ExpenseServiceTest {
     }
 
     @Test
-    void saveNewExpense(){
+    void saveNewExpense() {
         Expense newExpense = new Expense();
         BeanUtils.copyProperties(expense, newExpense);
         newExpense.setId(UUID.randomUUID());
-        Mockito.when(service.save(expense)).thenReturn(newExpense);
 
+        Mockito.when(service.save(expense)).thenReturn(newExpense);
         assertEquals(newExpense, service.save(expense));
     }
 
+    @Test
+    void getOneExpenseById() {
+        expense.setId(UUID.randomUUID());
+        Mockito.when(service.getOne(expense.getId())).thenReturn(Optional.ofNullable(expense));
 
+        assertEquals(service.getOne(expense.getId()), Optional.ofNullable(expense));
+    }
 }
