@@ -13,21 +13,25 @@ import java.util.UUID;
 public class TeamService {
 
     @Autowired
-    TeamRepository teamRepository;
+    TeamRepository repository;
 
     public Team save(Team team) {
-        return teamRepository.save(team);
+        return repository.save(team);
     }
 
     public List<Team> getAll() {
-        return teamRepository.findAll();
+        return repository.findAll();
     }
 
     public Optional<Team> getOne(UUID team_id) {
-        return teamRepository.findById(team_id);
+        return repository.findById(team_id);
     }
 
     public void delete(Team team) {
-        teamRepository.delete(team);
+        repository.delete(team);
+    }
+
+    public Team getByName(String name) {
+        return repository.findByName(name);
     }
 }

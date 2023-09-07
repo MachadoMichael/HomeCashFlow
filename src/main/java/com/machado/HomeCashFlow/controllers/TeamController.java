@@ -22,30 +22,29 @@ public class TeamController {
 
 
     @Autowired
-    TeamService teamService;
+    TeamService service;
 
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody @Valid TeamDTO teamDTO) {
         Team teamModel = new Team();
         BeanUtils.copyProperties(teamDTO, teamModel);
-        List<Team> filteredTeams = teamService.getAll().stream().
-                filter(team -> team.getId().equals(teamModel.getId())).toList();
+        Team selectedTeam = service.getByName(teamDTO.name());
 
-        if (!filteredTeams.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Email already registered.");
+        if (selectedTeam != null)
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Name already registered.");
 
-        return ResponseEntity.status(HttpStatus.OK).body(teamService.save(teamModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(teamModel));
     }
 
     @GetMapping
     public ResponseEntity<List<Team>> getAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(teamService.getAll());
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getOne(@PathVariable(value = "id") UUID team_id) {
 
-        Optional<Team> team = teamService.getOne(team_id);
+        Optional<Team> team = service.getOne(team_id);
         if (team.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found.");
 
@@ -56,24 +55,24 @@ public class TeamController {
     public ResponseEntity<Object> update(@PathVariable(value = "id") UUID team_id,
                                          @RequestBody @Valid TeamDTO teamDTO) {
 
-        Optional<Team> team = teamService.getOne(team_id);
+        Optional<Team> team = service.getOne(team_id);
         if (team.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found.");
 
         BeanUtils.copyProperties(teamDTO, team.get());
-        return ResponseEntity.status(HttpStatus.OK).body(teamService.save(team.get()));
+        return ResponseEntity.status(HttpStatus.OK).body(service.save(team.get()));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable(value = "id") UUID team_id) {
 
-        Optional<Team> team = teamService.getOne(team_id);
+        Optional<Team> team = service.getOne(team_id);
         if (team.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found.");
 
         Team teamModel = new Team();
         BeanUtils.copyProperties(team, teamModel);
-        teamService.delete(teamModel);
+        service.delete(teamModel);
 
         return ResponseEntity.status(HttpStatus.OK).body("Team deleted with success");
     }

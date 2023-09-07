@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface TeamRepository extends JpaRepository<Team, UUID> {
+    Team findByName(String name);
 }
