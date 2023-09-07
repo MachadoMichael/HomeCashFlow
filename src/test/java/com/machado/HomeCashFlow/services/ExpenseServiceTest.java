@@ -4,7 +4,7 @@ import com.machado.HomeCashFlow.dtos.ExpenseDTO;
 import com.machado.HomeCashFlow.entities.Expense;
 import com.machado.HomeCashFlow.entities.ExpenseCategory;
 import com.machado.HomeCashFlow.repositories.ExpenseRepository;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,9 +49,21 @@ public class ExpenseServiceTest {
         Mockito.when(repository.findAll()).thenReturn(Collections.singletonList(expense));
         List<Expense> expenseList = service.getAll();
 
-        Assertions.assertEquals(Collections.singletonList(expense), expenseList);
+        assertEquals(Collections.singletonList(expense), expenseList);
         Mockito.verify(repository).findAll();
         Mockito.verifyNoMoreInteractions(repository);
 
     }
+
+    @Test
+    void saveNewExpense(){
+        Expense newExpense = new Expense();
+        BeanUtils.copyProperties(expense, newExpense);
+        newExpense.setId(UUID.randomUUID());
+        Mockito.when(service.save(expense)).thenReturn(newExpense);
+
+        assertEquals(newExpense, service.save(expense));
+    }
+
+
 }
