@@ -1,6 +1,7 @@
 package com.machado.HomeCashFlow.controllers;
 
 import com.machado.HomeCashFlow.dtos.ExpenseDTO;
+import com.machado.HomeCashFlow.dtos.ReportDTO;
 import com.machado.HomeCashFlow.entities.Expense;
 import com.machado.HomeCashFlow.services.ExpenseService;
 import jakarta.validation.Valid;
@@ -10,9 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/expense")
@@ -66,4 +69,31 @@ public class ExpenseController {
 
         return ResponseEntity.status(HttpStatus.OK).body("Expense deleted with success");
     }
+
+    @GetMapping("/report")
+    public ResponseEntity<List<Object>> report(@RequestBody @Valid ReportDTO reportDTO) {
+
+        if (reportDTO.category() != null) {
+            List<Expense> report = service.getAll().stream()
+                    .filter(expense -> expense.getCustomer().equals(reportDTO.user_id()))
+                    .filter(expense -> expense.getTeam().equals(reportDTO.team_id()))
+                    .filter(expense -> expense.getDate().isBefore(reportDTO.finishDate()))
+                    .filter(expense -> expense.getDate().isAfter(reportDTO.starterDate()))
+                    .filter(expense -> expense.getCategory().equals(reportDTO.category()))
+                    .toList();
+
+            return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonList(report));
+        }
+
+        List<Expense> report = service.getAll().stream()
+                .filter(expense -> expense.getCustomer().equals(reportDTO.user_id()))
+                .filter(expense -> expense.getTeam().equals(reportDTO.team_id()))
+                .filter(expense -> expense.getDate().isBefore(reportDTO.finishDate()))
+                .filter(expense -> expense.getDate().isAfter(reportDTO.starterDate()))
+                .toList();
+
+        return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonList(report));
+    }
 }
+
+
