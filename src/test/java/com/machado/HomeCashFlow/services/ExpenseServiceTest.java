@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.BeanUtils;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -40,8 +41,8 @@ public class ExpenseServiceTest {
         ExpenseDTO expenseDTO = new ExpenseDTO(
                 "book",
                 "ultraKnowledge",
-                Instant.now(),
-                2,
+                LocalDate.now(),
+                UUID.randomUUID(),
                 1,
                 ExpenseCategory.EDUCATION,
                 45.00);
