@@ -1,4 +1,4 @@
-package com.machado.HomeCashFlow.services;
+package com.machado.HomeCashFlow.services.team;
 
 import com.machado.HomeCashFlow.entities.Team;
 import com.machado.HomeCashFlow.repositories.TeamRepository;
@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class TeamService {
+public class TeamServiceImp implements TeamService{
 
     @Autowired
     TeamRepository repository;

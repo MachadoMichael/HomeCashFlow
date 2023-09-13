@@ -1,7 +1,8 @@
-package com.machado.HomeCashFlow.services;
+package com.machado.HomeCashFlow.services.expense;
 
 import com.machado.HomeCashFlow.entities.Expense;
 import com.machado.HomeCashFlow.repositories.ExpenseRepository;
+import com.machado.HomeCashFlow.services.expense.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class ExpenseService {
+public class ExpenseServiceImp implements ExpenseService {
 
     @Autowired
     ExpenseRepository repository;

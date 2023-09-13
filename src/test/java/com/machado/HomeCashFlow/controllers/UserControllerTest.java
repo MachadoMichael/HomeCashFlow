@@ -4,7 +4,7 @@ import com.machado.HomeCashFlow.dtos.UserDTO;
 import com.machado.HomeCashFlow.entities.User;
 
 import com.machado.HomeCashFlow.repositories.UserRepository;
-import com.machado.HomeCashFlow.services.UserService;
+import com.machado.HomeCashFlow.services.user.UserServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +30,7 @@ public class UserControllerTest {
     UserController controller;
 
     @Mock
-    private UserService service;
+    private UserServiceImp service;
 
     @Mock
     private UserRepository repository;

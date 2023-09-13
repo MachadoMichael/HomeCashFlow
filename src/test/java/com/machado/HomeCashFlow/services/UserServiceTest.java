@@ -6,6 +6,7 @@ import com.machado.HomeCashFlow.repositories.UserRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.machado.HomeCashFlow.services.user.UserServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +16,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.BeanUtils;
 
-import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +25,7 @@ import java.util.UUID;
 public class UserServiceTest {
 
     @InjectMocks
-    UserService service;
+    UserServiceImp service;
 
     @Mock
     UserRepository repository;

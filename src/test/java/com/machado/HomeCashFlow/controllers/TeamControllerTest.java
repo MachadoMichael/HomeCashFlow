@@ -4,7 +4,7 @@ import com.machado.HomeCashFlow.dtos.TeamDTO;
 import com.machado.HomeCashFlow.entities.Team;
 
 import com.machado.HomeCashFlow.repositories.TeamRepository;
-import com.machado.HomeCashFlow.services.TeamService;
+import com.machado.HomeCashFlow.services.team.TeamServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,7 @@ public class TeamControllerTest {
     TeamController controller;
 
     @Mock
-    private TeamService service;
+    private TeamServiceImp service;
 
     @Mock
     private TeamRepository repository;

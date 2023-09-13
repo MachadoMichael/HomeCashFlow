@@ -1,4 +1,4 @@
-package com.machado.HomeCashFlow.services;
+package com.machado.HomeCashFlow.services.user;
 
 import com.machado.HomeCashFlow.entities.User;
 import com.machado.HomeCashFlow.repositories.UserRepository;
@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserService {
+public class UserServiceImp implements  UserService{
 
     @Autowired
     UserRepository repository;

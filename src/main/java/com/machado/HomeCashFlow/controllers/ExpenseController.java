@@ -3,7 +3,7 @@ package com.machado.HomeCashFlow.controllers;
 import com.machado.HomeCashFlow.dtos.ExpenseDTO;
 import com.machado.HomeCashFlow.dtos.ReportDTO;
 import com.machado.HomeCashFlow.entities.Expense;
-import com.machado.HomeCashFlow.services.ExpenseService;
+import com.machado.HomeCashFlow.services.expense.ExpenseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/expense")

@@ -6,6 +6,7 @@ import com.machado.HomeCashFlow.repositories.TeamRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.machado.HomeCashFlow.services.team.TeamServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,14 +16,13 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.BeanUtils;
 
-import java.time.Instant;
 import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TeamServiceTest {
 
     @InjectMocks
-    TeamService service;
+    TeamServiceImp service;
 
     @Mock
     TeamRepository repository;

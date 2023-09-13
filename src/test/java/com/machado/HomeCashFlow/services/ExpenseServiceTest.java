@@ -7,6 +7,7 @@ import com.machado.HomeCashFlow.repositories.ExpenseRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.machado.HomeCashFlow.services.expense.ExpenseServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +27,7 @@ import java.util.UUID;
 public class ExpenseServiceTest {
 
     @InjectMocks
-    ExpenseService service;
+    ExpenseServiceImp service;
 
     @Mock
     ExpenseRepository repository;

@@ -4,7 +4,7 @@ import com.machado.HomeCashFlow.dtos.ExpenseDTO;
 import com.machado.HomeCashFlow.entities.Expense;
 import com.machado.HomeCashFlow.entities.ExpenseCategory;
 import com.machado.HomeCashFlow.repositories.ExpenseRepository;
-import com.machado.HomeCashFlow.services.ExpenseService;
+import com.machado.HomeCashFlow.services.expense.ExpenseServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,7 @@ public class ExpenseControllerTest {
     ExpenseController controller;
 
     @Mock
-    private ExpenseService service;
+    private ExpenseServiceImp service;
 
     @Mock
     private ExpenseRepository repository;

@@ -2,7 +2,8 @@ package com.machado.HomeCashFlow.controllers;
 
 import com.machado.HomeCashFlow.dtos.TeamDTO;
 import com.machado.HomeCashFlow.entities.Team;
-import com.machado.HomeCashFlow.services.TeamService;
+import com.machado.HomeCashFlow.services.team.TeamService;
+import com.machado.HomeCashFlow.services.team.TeamServiceImp;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/team")
