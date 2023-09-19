@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -21,7 +22,7 @@ public class Expense implements Serializable {
     private UUID id;
     private String name;
     private String note;
-    private LocalDate date;
+    private LocalDateTime date;
     private UUID customer;
     private UUID team;
     private ExpenseCategory category;
@@ -51,11 +52,11 @@ public class Expense implements Serializable {
         this.note = note;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

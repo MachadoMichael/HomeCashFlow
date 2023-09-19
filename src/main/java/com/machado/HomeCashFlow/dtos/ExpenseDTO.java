@@ -7,12 +7,13 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record ExpenseDTO(
         @NotBlank String name,
         String note,
-        @NotNull LocalDate date,
+        @NotNull LocalDateTime date,
         @NotNull UUID customer,
         @NotNull Integer team,
         ExpenseCategory category,

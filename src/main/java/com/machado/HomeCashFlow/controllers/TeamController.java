@@ -2,8 +2,10 @@ package com.machado.HomeCashFlow.controllers;
 
 import com.machado.HomeCashFlow.dtos.TeamDTO;
 import com.machado.HomeCashFlow.entities.Team;
+import com.machado.HomeCashFlow.entities.User;
 import com.machado.HomeCashFlow.services.team.TeamService;
 import com.machado.HomeCashFlow.services.team.TeamServiceImp;
+import com.machado.HomeCashFlow.services.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,6 +26,9 @@ public class TeamController {
     @Autowired
     TeamService service;
 
+    @Autowired
+    UserService userService;
+
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody @Valid TeamDTO teamDTO) {
         Team teamModel = new Team();
@@ -32,7 +38,18 @@ public class TeamController {
         if (selectedTeam != null)
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Name already registered.");
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(teamModel));
+
+        User member = userService.getByEmail(teamDTO.ownerEmail());
+        if (member != null) {
+
+            teamModel.setMembers(new ArrayList<>());
+            teamModel.getMembers().add(member.getId());
+            Team newTeam = service.save(teamModel);
+
+            member.getTeams().add(newTeam.getId());
+            userService.save(member);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body("Team created with success");
     }
 
     @GetMapping

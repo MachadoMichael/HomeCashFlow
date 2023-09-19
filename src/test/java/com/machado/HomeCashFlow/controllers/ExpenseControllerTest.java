@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,8 +45,8 @@ public class ExpenseControllerTest {
         expenseDTO = new ExpenseDTO(
                 "book",
                 "ultraKnowledge",
-                Instant.now(),
-                2,
+                LocalDateTime.now(),
+                UUID.randomUUID(),
                 1,
                 ExpenseCategory.EDUCATION,
                 45.00);

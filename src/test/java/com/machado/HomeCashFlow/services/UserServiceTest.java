@@ -68,7 +68,6 @@ public class UserServiceTest {
     void getOneUserById() {
         user.setId(UUID.randomUUID());
         Mockito.when(service.getOne(user.getId())).thenReturn(Optional.ofNullable(user));
-
         assertEquals(service.getOne(user.getId()), Optional.ofNullable(user));
     }
 }

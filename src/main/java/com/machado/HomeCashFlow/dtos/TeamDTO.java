@@ -1,12 +1,12 @@
 package com.machado.HomeCashFlow.dtos;
 
-import com.machado.HomeCashFlow.entities.User;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
+import java.util.UUID;
 
 public record TeamDTO(
         @NotBlank String name,
-        @NotBlank List<Integer> members
+        @NotBlank String ownerEmail
 ) {
 }

@@ -22,13 +22,13 @@ public class User implements Serializable {
     @Email
     private String email;
     private String password;
-    private List<Integer> teams;
+    private List<UUID> teams;
 
-    public List<Integer> getTeams() {
+    public List<UUID> getTeams() {
         return teams;
     }
 
-    public void setTeams(List<Integer> teams) {
+    public void setTeams(List<UUID> teams) {
         this.teams = teams;
     }
 
