@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,7 +28,7 @@ public class UserController {
         User userModel = new User();
         BeanUtils.copyProperties(userDTO, userModel);
         User selectedUser = service.getByEmail(userDTO.email());
-
+        userModel.setTeams(new ArrayList<>());
         if (selectedUser != null)
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Email already registered.");
 

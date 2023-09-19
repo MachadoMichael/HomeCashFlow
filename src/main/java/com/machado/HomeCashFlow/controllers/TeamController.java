@@ -38,7 +38,6 @@ public class TeamController {
         if (selectedTeam != null)
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Name already registered.");
 
-
         User member = userService.getByEmail(teamDTO.ownerEmail());
         if (member != null) {
 
