@@ -1,5 +1,6 @@
 package com.machado.HomeCashFlow.controllers;
 
+import com.machado.HomeCashFlow.dtos.AddMemberDTO;
 import com.machado.HomeCashFlow.dtos.TeamDTO;
 import com.machado.HomeCashFlow.entities.Team;
 import com.machado.HomeCashFlow.entities.User;
@@ -91,4 +92,24 @@ public class TeamController {
 
         return ResponseEntity.status(HttpStatus.OK).body("Team deleted with success");
     }
+
+    @PostMapping("/addMember")
+    public ResponseEntity<Object> addNewMember(@RequestBody AddMemberDTO addMemberDTO) {
+        Optional<Team> selectedTeam = service.getOne(addMemberDTO.teamId());
+        if (selectedTeam.isPresent()) {
+            User selectedUser = userService.getByEmail(addMemberDTO.userEmail());
+            selectedUser.getTeams().add(addMemberDTO.teamId());
+            userService.save(selectedUser);
+            selectedTeam.get().getMembers().add(selectedUser.getId());
+            Team teamModel = new Team();
+            BeanUtils.copyProperties(selectedTeam, teamModel);
+            service.save(teamModel);
+            return ResponseEntity.status(HttpStatus.OK).body("New member add in team " + selectedTeam.get().getName());
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found.");
+    }
+
+
+
 }
