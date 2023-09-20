@@ -96,20 +96,39 @@ public class TeamController {
     @PostMapping("/addMember")
     public ResponseEntity<Object> addNewMember(@RequestBody AddMemberDTO addMemberDTO) {
         Optional<Team> selectedTeam = service.getOne(addMemberDTO.teamId());
-        if (selectedTeam.isPresent()) {
-            User selectedUser = userService.getByEmail(addMemberDTO.userEmail());
-            selectedUser.getTeams().add(addMemberDTO.teamId());
-            userService.save(selectedUser);
-            selectedTeam.get().getMembers().add(selectedUser.getId());
-            Team teamModel = new Team();
-            BeanUtils.copyProperties(selectedTeam, teamModel);
-            service.save(teamModel);
-            return ResponseEntity.status(HttpStatus.OK).body("New member add in team " + selectedTeam.get().getName());
+        if (selectedTeam.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found.");
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found.");
+        User selectedUser = userService.getByEmail(addMemberDTO.userEmail());
+        selectedUser.getTeams().add(addMemberDTO.teamId());
+        userService.save(selectedUser);
+        selectedTeam.get().getMembers().add(selectedUser.getId());
+        Team teamModel = new Team();
+        BeanUtils.copyProperties(selectedTeam, teamModel);
+        service.save(teamModel);
+        return ResponseEntity.status(HttpStatus.OK).body("New member add in team " + selectedTeam.get().getName());
+
     }
 
+    @GetMapping("/teamMembers/{id}")
+    public ResponseEntity<Object> getInvite(@PathVariable(value = "id") UUID id) {
+        Optional<Team> selectedTeam = service.getOne(id);
+        if (selectedTeam.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found.");
+        }
 
+        List<User> teamMembers = new ArrayList<>();
+        for (UUID userId : selectedTeam.get().getMembers()) {
+            Optional<User> selectedUser = userService.getOne(userId);
+            if (selectedUser.isPresent()) {
+                User userModel = new User();
+                BeanUtils.copyProperties(selectedUser, userModel);
+                teamMembers.add(userModel);
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(teamMembers);
+    }
 
 }
